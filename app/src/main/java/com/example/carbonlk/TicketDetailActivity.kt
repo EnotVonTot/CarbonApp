@@ -53,11 +53,11 @@ class TicketDetailActivity : AppCompatActivity() {
 
             // Настраиваем цвет статуса
             if (it.status == TicketStatus.OPEN) {
-                binding.ticketStatus.setTextColor(getColor(R.color.green))
-                binding.ticketStatus.setBackgroundResource(R.drawable.status_background)
+                binding.ticketStatus.setTextColor(getColor(R.color.green))  // зеленый текст
+                binding.ticketStatus.setBackgroundResource(R.drawable.status_background_gray)  // светло-серый фон
             } else {
-                binding.ticketStatus.setTextColor(getColor(R.color.dark_gray))
-                binding.ticketStatus.setBackgroundResource(R.drawable.status_background_gray)
+                binding.ticketStatus.setTextColor(getColor(R.color.dark_gray))  // серый текст
+                binding.ticketStatus.setBackgroundResource(R.drawable.status_background_gray)  // серый фон
             }
 
             binding.ticketSubject.text = it.subject.ifEmpty { "Без темы" }

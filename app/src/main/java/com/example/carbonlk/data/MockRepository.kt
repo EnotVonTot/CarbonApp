@@ -17,9 +17,27 @@ object MockRepository {
     )
 
     val tickets = mutableListOf(
-        Ticket("1", "SUP-1668960", TicketStatus.CLOSED),
-        Ticket("2", "SUP-1667543", TicketStatus.CLOSED),
-        Ticket("3", "SUP-1650042", TicketStatus.OPEN)
+        Ticket(
+            id = "1",
+            number = "SUP-1668960",
+            status = TicketStatus.CLOSED,
+            subject = "Проблема с интернетом",
+            description = "Не работает интернет уже второй день. Перезагружал роутер - не помогло."
+        ),
+        Ticket(
+            id = "2",
+            number = "SUP-1667543",
+            status = TicketStatus.CLOSED,
+            subject = "Сбой в работе личного кабинета",
+            description = "Не могу войти в личный кабинет, пишет 'ошибка авторизации'."
+        ),
+        Ticket(
+            id = "3",
+            number = "SUP-1650042",
+            status = TicketStatus.OPEN,
+            subject = "Запрос на смену тарифа",
+            description = "Хочу перейти на тариф 'Белка 300'. Подскажите, как это сделать."
+        )
     )
 
     fun addTicket(subject: String, description: String): Ticket {
