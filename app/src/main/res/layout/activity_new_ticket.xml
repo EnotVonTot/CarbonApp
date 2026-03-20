@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <!-- ScrollView с контентом -->
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:paddingBottom="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <!-- Заголовок: Здравствуйте, Никита -->
+            <TextView
+                android:id="@+id/greetingTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Здравствуйте, Никита"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="16dp" />
+
+            <!-- Заголовок: Новая заявка -->
+            <TextView
+                android:id="@+id/newTicketTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Новая заявка"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginTop="24dp"
+                app:layout_constraintTop_toBottomOf="@id/greetingTextView"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <!-- Карточка с формой -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/formCard"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/light_gray"
+                app:contentPadding="16dp"
+                app:layout_constraintTop_toBottomOf="@id/newTicketTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Поле Тема -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/ticketSubjectLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Тема"
+                        app:boxBackgroundMode="outline"
+                        android:layout_marginBottom="16dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/ticketSubject"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:maxLines="1" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Поле Описание (многострочное) -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/ticketDescriptionLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Описание"
+                        app:boxBackgroundMode="outline"
+                        android:layout_marginBottom="16dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/ticketDescription"
+                            android:layout_width="match_parent"
+                            android:layout_height="120dp"
+                            android:inputType="textMultiLine"
+                            android:gravity="top"
+                            android:paddingTop="12dp" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Кнопка Сохранить -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/saveTicketButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:text="Сохранить"
+                        android:textSize="16sp"
+                        app:cornerRadius="8dp"
+                        app:backgroundTint="@color/purple_500"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Копирайт -->
+            <TextView
+                android:id="@+id/copyrightText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Copyright 2025"
+                android:textSize="12sp"
+                android:textColor="@color/dark_gray"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintTop_toBottomOf="@id/formCard"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <!-- Нижняя навигация (всегда внизу) - Поддержка активна -->
+    <LinearLayout
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@color/white"
+        android:elevation="8dp"
+        android:paddingVertical="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/navHome"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Главная"
+            android:textColor="@color/dark_gray" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/navServices"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Услуги"
+            android:textColor="@color/dark_gray" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/navPayment"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Оплата"
+            android:textColor="@color/dark_gray" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/navSupport"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Поддержка"
+            android:textColor="@color/purple_500" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

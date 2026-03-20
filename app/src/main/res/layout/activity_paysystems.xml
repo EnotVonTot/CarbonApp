@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <!-- ScrollView с контентом -->
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:paddingBottom="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <!-- Заголовок: Здравствуйте, Никита -->
+            <TextView
+                android:id="@+id/greetingTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Здравствуйте, Никита"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="16dp" />
+
+            <!-- Uniteller CardView -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardUniteller"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/light_gray"
+                app:contentPadding="16dp"
+                app:layout_constraintTop_toBottomOf="@id/greetingTextView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="24dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Заголовок Uniteller -->
+                    <TextView
+                        android:id="@+id/unitellerTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Uniteller"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:layout_marginBottom="16dp" />
+
+                    <!-- Поле Сумма -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/unitellerAmountLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Сумма"
+                        app:boxBackgroundMode="outline"
+                        android:layout_marginBottom="12dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/unitellerAmount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Поле Телефон -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/unitellerPhoneLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Телефон"
+                        app:boxBackgroundMode="outline"
+                        android:layout_marginBottom="12dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/unitellerPhone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="phone" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Поле E-mail -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/unitellerEmailLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="E-mail"
+                        app:boxBackgroundMode="outline"
+                        android:layout_marginBottom="16dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/unitellerEmail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textEmailAddress" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Кнопка Оплатить -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/unitellerPayButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:text="Оплатить"
+                        android:textSize="16sp"
+                        app:cornerRadius="8dp"
+                        app:backgroundTint="@color/purple_500"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Т-банк CardView -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardTbank"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/light_gray"
+                app:contentPadding="16dp"
+                app:layout_constraintTop_toBottomOf="@id/cardUniteller"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Заголовок Т-банк -->
+                    <TextView
+                        android:id="@+id/tbankTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Т-банк"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:layout_marginBottom="16dp" />
+
+                    <!-- Поле Сумма -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tbankAmountLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Сумма"
+                        app:boxBackgroundMode="outline"
+                        android:layout_marginBottom="12dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tbankAmount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Поле Телефон -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tbankPhoneLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Телефон"
+                        app:boxBackgroundMode="outline"
+                        android:layout_marginBottom="12dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tbankPhone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="phone" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Поле E-mail -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tbankEmailLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="E-mail"
+                        app:boxBackgroundMode="outline"
+                        android:layout_marginBottom="16dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tbankEmail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textEmailAddress" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Кнопка Оплатить -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/tbankPayButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:text="Оплатить"
+                        android:textSize="16sp"
+                        app:cornerRadius="8dp"
+                        app:backgroundTint="@color/purple_500"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Копирайт -->
+            <TextView
+                android:id="@+id/copyrightText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Copyright 2025"
+                android:textSize="12sp"
+                android:textColor="@color/dark_gray"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintTop_toBottomOf="@id/cardTbank"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <!-- Нижняя навигация (всегда внизу) - Оплата активна -->
+    <LinearLayout
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@color/white"
+        android:elevation="8dp"
+        android:paddingVertical="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/navHome"
+            style="@style/NavigationButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Главная"
+            android:textColor="@color/dark_gray" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/navServices"
+            style="@style/NavigationButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Услуги"
+            android:textColor="@color/dark_gray" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/navPayment"
+            style="@style/NavigationButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Оплата"
+            android:textColor="@color/purple_500" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/navSupport"
+            style="@style/NavigationButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Поддержка"
+            android:textColor="@color/dark_gray" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
