@@ -1,5 +1,6 @@
 package com.example.carbonlk
 
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -10,14 +11,19 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.carbonlk.databinding.ActivityAccountBinding
 import com.example.carbonlk.data.MockRepository
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class AccountActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAccountBinding
+    private val calendar = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Edge-to-edge и обработка выреза камеры
         WindowCompat.setDecorFitsSystemWindows(window, false)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             window.attributes.layoutInDisplayCutoutMode =
@@ -31,7 +37,7 @@ class AccountActivity : AppCompatActivity() {
         displayUserData()
         setupClickListeners()
         setupSwitches()
-        setupBlockingDatePicker()
+        setupBlockingDatePicker()  // ВАЖНО: вызываем метод!
     }
 
     private fun applyWindowInsets() {
@@ -52,7 +58,6 @@ class AccountActivity : AppCompatActivity() {
 
     private fun displayUserData() {
         val user = MockRepository.currentUser
-        // Используем метод getFullName() для отображения полного ФИО
         binding.userName.text = user.getFullName()
         binding.userPhone.text = user.phone
         binding.userEmail.text = user.email
@@ -63,8 +68,7 @@ class AccountActivity : AppCompatActivity() {
         // Кнопка Изменить
         binding.editButton.setOnClickListener {
             val intent = Intent(this, AccountEditActivity::class.java).apply {
-                // Передаём текущие данные
-                putExtra("fullName", MockRepository.currentUser.firstName)
+                putExtra("fullName", MockRepository.currentUser.getFullName())
                 putExtra("phone", MockRepository.currentUser.phone)
                 putExtra("email", MockRepository.currentUser.email)
                 putExtra("address", MockRepository.currentUser.address)
@@ -80,11 +84,6 @@ class AccountActivity : AppCompatActivity() {
             startActivity(intent)
             overridePendingTransition(0, 0)
             finish()
-        }
-
-        // Блокировка
-        binding.blockingCard.setOnClickListener {
-            Toast.makeText(this, "Выберите дату блокировки", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -109,6 +108,41 @@ class AccountActivity : AppCompatActivity() {
     }
 
     private fun setupBlockingDatePicker() {
-        // Здесь код DatePicker (если уже есть)
+        val dateFormat = SimpleDateFormat("dd MMM yyyy", Locale("ru"))
+
+        binding.blockingCard.setOnClickListener {
+            val datePickerDialog = DatePickerDialog(
+                this,
+                { _, year, month, dayOfMonth ->
+                    val selectedDate = Calendar.getInstance().apply {
+                        set(year, month, dayOfMonth)
+                    }
+
+                    // Проверка: дата должна быть в будущем
+                    if (selectedDate.timeInMillis > System.currentTimeMillis()) {
+                        val formattedDate = dateFormat.format(selectedDate.time)
+                        binding.blockingDate.text = formattedDate
+                        Toast.makeText(
+                            this,
+                            "Блокировка установлена на $formattedDate",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        Toast.makeText(
+                            this,
+                            "Выберите дату в будущем",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+            )
+
+            // Устанавливаем минимальную дату (сегодня + 1 день)
+            datePickerDialog.datePicker.minDate = System.currentTimeMillis() + (24 * 60 * 60 * 1000)
+            datePickerDialog.show()
+        }
     }
 }
