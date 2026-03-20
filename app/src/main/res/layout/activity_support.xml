@@ -265,7 +265,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Главная"
-            android:textColor="@color/dark_gray" />
+            android:textColor="@color/dark_gray"
+            app:icon="@drawable/ic_home"
+            app:iconGravity="textTop" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/navServices"
@@ -274,7 +276,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Услуги"
-            android:textColor="@color/dark_gray" />
+            android:textColor="@color/dark_gray"
+            app:icon="@drawable/ic_services"
+            app:iconGravity="textTop" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/navPayment"
@@ -283,16 +287,20 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Оплата"
-            android:textColor="@color/dark_gray" />
+            android:textColor="@color/dark_gray"
+            app:icon="@drawable/ic_card"
+            app:iconGravity="textTop" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/navSupport"
-            style="@style/NavigationButton"
+            style="@style/NavigationButton.Active"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Поддержка"
-            android:textColor="@color/purple_500" />
+            android:textColor="@color/purple_500"
+            app:icon="@drawable/ic_support"
+            app:iconGravity="textTop" />
 
     </LinearLayout>
 

@@ -54,26 +54,32 @@ class ServicesActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupClickListeners() {
-        // Навигация
-        binding.navHome.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
-        }
+    private fun navigateTo(activityClass: Class<*>) {
+        val intent = Intent(this, activityClass)
+        startActivity(intent)
+        overridePendingTransition(0, 0)  // Отключаем анимацию
+        finish()  // Закрываем текущую активность (если нужно)
+    }
 
-        binding.navServices.setOnClickListener {
-            Toast.makeText(this, "Услуги", Toast.LENGTH_SHORT).show()
+    private fun setupClickListeners() {
+        // ... остальные слушатели
+
+        binding.navHome.setOnClickListener {
+            navigateTo(MainActivity::class.java)
         }
 
         binding.navPayment.setOnClickListener {
-            startActivity(Intent(this, PaysystemsActivity::class.java))
-            finish()
+            navigateTo(PaysystemsActivity::class.java)
         }
 
         binding.navSupport.setOnClickListener {
-            startActivity(Intent(this, SupportActivity::class.java))
-            finish()
+            navigateTo(SupportActivity::class.java)
         }
+
+        binding.greetingTextView.setOnClickListener {
+            navigateTo(AccountActivity::class.java)
+        }
+
 
         // Кнопки подключения
         binding.parentalControlButton.setOnClickListener {
@@ -98,11 +104,6 @@ class ServicesActivity : AppCompatActivity() {
 
         binding.iptvConnectButton.setOnClickListener {
             Toast.makeText(this, "Подключение IPTV 24TV", Toast.LENGTH_SHORT).show()
-        }
-
-        // Переход на личную страницу
-        binding.greetingTextView.setOnClickListener {
-            startActivity(Intent(this, AccountActivity::class.java))
         }
     }
 }

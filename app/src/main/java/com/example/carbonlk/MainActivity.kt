@@ -59,28 +59,32 @@ class MainActivity : AppCompatActivity() {
         binding.activationDateValue.text = user.activationDate
     }
 
+    private fun navigateTo(activityClass: Class<*>) {
+        val intent = Intent(this, activityClass)
+        startActivity(intent)
+        overridePendingTransition(0, 0)  // Отключаем анимацию
+        finish()  // Закрываем текущую активность (если нужно)
+    }
+
     private fun setupClickListeners() {
-        // Навигация по нижним кнопкам
-        binding.navHome.setOnClickListener {
-            Toast.makeText(this, "Главная", Toast.LENGTH_SHORT).show()
-        }
+        // ... остальные слушатели
 
         binding.navServices.setOnClickListener {
-            startActivity(Intent(this, ServicesActivity::class.java))
+            navigateTo(ServicesActivity::class.java)
         }
 
         binding.navPayment.setOnClickListener {
-            startActivity(Intent(this, PaysystemsActivity::class.java))
+            navigateTo(PaysystemsActivity::class.java)
         }
 
         binding.navSupport.setOnClickListener {
-            startActivity(Intent(this, SupportActivity::class.java))
+            navigateTo(SupportActivity::class.java)
         }
 
-        // Переход на личную страницу
         binding.greetingTextView.setOnClickListener {
-            startActivity(Intent(this, AccountActivity::class.java))
+            navigateTo(AccountActivity::class.java)
         }
+
 
         // Обработка кнопки "Взять" для обещанного платежа
         binding.buttonTake.setOnClickListener {

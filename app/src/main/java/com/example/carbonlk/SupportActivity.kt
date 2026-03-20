@@ -99,21 +99,30 @@ class SupportActivity : AppCompatActivity() {
         }
     }
 
+    private fun navigateTo(activityClass: Class<*>) {
+        val intent = Intent(this, activityClass)
+        startActivity(intent)
+        overridePendingTransition(0, 0)  // Отключаем анимацию
+        finish()  // Закрываем текущую активность (если нужно)
+    }
+
     private fun setupClickListeners() {
-        // Навигация
+        // ... остальные слушатели
+
         binding.navHome.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
+            navigateTo(MainActivity::class.java)
         }
 
         binding.navServices.setOnClickListener {
-            startActivity(Intent(this, ServicesActivity::class.java))
-            finish()
+            navigateTo(ServicesActivity::class.java)
         }
 
         binding.navPayment.setOnClickListener {
-            startActivity(Intent(this, PaysystemsActivity::class.java))
-            finish()
+            navigateTo(PaysystemsActivity::class.java)
+        }
+
+        binding.greetingTextView.setOnClickListener {
+            navigateTo(AccountActivity::class.java)
         }
 
         binding.navSupport.setOnClickListener {
@@ -141,11 +150,6 @@ class SupportActivity : AppCompatActivity() {
 
         binding.ticket3Card.setOnClickListener {
             Toast.makeText(this, "Заявка ${binding.ticket3Number.text}", Toast.LENGTH_SHORT).show()
-        }
-
-        // Переход на личную страницу
-        binding.greetingTextView.setOnClickListener {
-            startActivity(Intent(this, AccountActivity::class.java))
         }
     }
 }

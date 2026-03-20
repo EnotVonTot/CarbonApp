@@ -54,25 +54,30 @@ class PaysystemsActivity : AppCompatActivity() {
         }
     }
 
+    private fun navigateTo(activityClass: Class<*>) {
+        val intent = Intent(this, activityClass)
+        startActivity(intent)
+        overridePendingTransition(0, 0)  // Отключаем анимацию
+        finish()  // Закрываем текущую активность (если нужно)
+    }
+
     private fun setupClickListeners() {
-        // Навигация
+        // ... остальные слушатели
+
         binding.navHome.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
+            navigateTo(MainActivity::class.java)
         }
 
         binding.navServices.setOnClickListener {
-            startActivity(Intent(this, ServicesActivity::class.java))
-            finish()
-        }
-
-        binding.navPayment.setOnClickListener {
-            Toast.makeText(this, "Оплата", Toast.LENGTH_SHORT).show()
+            navigateTo(ServicesActivity::class.java)
         }
 
         binding.navSupport.setOnClickListener {
-            startActivity(Intent(this, SupportActivity::class.java))
-            finish()
+            navigateTo(SupportActivity::class.java)
+        }
+
+        binding.greetingTextView.setOnClickListener {
+            navigateTo(AccountActivity::class.java)
         }
 
         // Кнопки оплаты
@@ -94,11 +99,6 @@ class PaysystemsActivity : AppCompatActivity() {
             if (validatePaymentFields(amount, phone, email)) {
                 Toast.makeText(this, "Оплата через Т-банк: $amount руб.", Toast.LENGTH_SHORT).show()
             }
-        }
-
-        // Переход на личную страницу
-        binding.greetingTextView.setOnClickListener {
-            startActivity(Intent(this, AccountActivity::class.java))
         }
     }
 
