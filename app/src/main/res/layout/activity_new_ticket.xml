@@ -10,11 +10,11 @@
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:fillViewport="true"
         android:paddingBottom="16dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -93,7 +93,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Описание"
                         app:boxBackgroundMode="outline"
-                        android:layout_marginBottom="16dp">
+                        android:layout_marginBottom="24dp">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/ticketDescription"
@@ -114,6 +114,18 @@
                         android:textSize="16sp"
                         app:cornerRadius="8dp"
                         app:backgroundTint="@color/purple_500"
+                        android:textColor="@color/white"
+                        android:layout_marginBottom="12dp" />
+
+                    <!-- Кнопка Назад (того же стиля, что и Сохранить) -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/backButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:text="Назад"
+                        android:textSize="16sp"
+                        app:cornerRadius="8dp"
+                        app:backgroundTint="@color/dark_gray"
                         android:textColor="@color/white" />
 
                 </LinearLayout>
@@ -129,7 +141,7 @@
                 android:textSize="12sp"
                 android:textColor="@color/dark_gray"
                 android:layout_marginTop="24dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="24dp"
                 app:layout_constraintTop_toBottomOf="@id/formCard"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
@@ -137,57 +149,5 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
-
-    <!-- Нижняя навигация (всегда внизу) - Поддержка активна -->
-    <LinearLayout
-        android:id="@+id/bottomNavigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:background="@color/white"
-        android:elevation="8dp"
-        android:paddingVertical="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/navHome"
-            style="@style/Widget.Material3.Button.TextButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Главная"
-            android:textColor="@color/dark_gray" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/navServices"
-            style="@style/Widget.Material3.Button.TextButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Услуги"
-            android:textColor="@color/dark_gray" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/navPayment"
-            style="@style/Widget.Material3.Button.TextButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Оплата"
-            android:textColor="@color/dark_gray" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/navSupport"
-            style="@style/Widget.Material3.Button.TextButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Поддержка"
-            android:textColor="@color/purple_500" />
-
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

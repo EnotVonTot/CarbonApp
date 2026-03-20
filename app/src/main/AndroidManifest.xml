@@ -7,17 +7,19 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.CarbonLK">
-
+        <activity
+            android:name=".TicketDetailActivity"
+            android:exported="false" />
         <activity
             android:name=".SplashActivity"
             android:exported="true"
             android:theme="@style/Theme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".LoginActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".ServicesActivity" />
@@ -26,7 +28,6 @@
         <activity android:name=".NewTicketActivity" />
         <activity android:name=".AccountActivity" />
         <activity android:name=".AccountEditActivity" />
-
     </application>
 
 </manifest>

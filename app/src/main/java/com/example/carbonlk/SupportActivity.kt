@@ -129,27 +129,52 @@ class SupportActivity : AppCompatActivity() {
             Toast.makeText(this, "Поддержка", Toast.LENGTH_SHORT).show()
         }
 
-        // Звонок в поддержку
-        binding.callSupportButton.setOnClickListener {
-            Toast.makeText(this, "Звонок в техподдержку...", Toast.LENGTH_SHORT).show()
-        }
-
         // Новая заявка
         binding.newTicketButton.setOnClickListener {
             startActivity(Intent(this, NewTicketActivity::class.java))
         }
 
-        // Клик по карточкам
+// Вместо Toast теперь открываем детали заявки
         binding.ticket1Card.setOnClickListener {
-            Toast.makeText(this, "Заявка ${binding.ticket1Number.text}", Toast.LENGTH_SHORT).show()
+            val tickets = MockRepository.tickets
+            if (tickets.isNotEmpty()) {
+                val intent = Intent(this, TicketDetailActivity::class.java).apply {
+                    putExtra("ticket_id", tickets[0].id)
+                    putExtra("ticket_number", tickets[0].number)
+                }
+                startActivity(intent)
+                overridePendingTransition(0, 0)
+            } else {
+                Toast.makeText(this, "Заявка не найдена", Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.ticket2Card.setOnClickListener {
-            Toast.makeText(this, "Заявка ${binding.ticket2Number.text}", Toast.LENGTH_SHORT).show()
+            val tickets = MockRepository.tickets
+            if (tickets.size > 1) {
+                val intent = Intent(this, TicketDetailActivity::class.java).apply {
+                    putExtra("ticket_id", tickets[1].id)
+                    putExtra("ticket_number", tickets[1].number)
+                }
+                startActivity(intent)
+                overridePendingTransition(0, 0)
+            } else {
+                Toast.makeText(this, "Заявка не найдена", Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.ticket3Card.setOnClickListener {
-            Toast.makeText(this, "Заявка ${binding.ticket3Number.text}", Toast.LENGTH_SHORT).show()
+            val tickets = MockRepository.tickets
+            if (tickets.size > 2) {
+                val intent = Intent(this, TicketDetailActivity::class.java).apply {
+                    putExtra("ticket_id", tickets[2].id)
+                    putExtra("ticket_number", tickets[2].number)
+                }
+                startActivity(intent)
+                overridePendingTransition(0, 0)
+            } else {
+                Toast.makeText(this, "Заявка не найдена", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

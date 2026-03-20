@@ -17,12 +17,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Личная страница"
-            android:textSize="28sp"
+            android:textSize="24sp"
             android:textStyle="bold"
             android:textColor="@color/black"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="24dp" />
+            android:layout_marginTop="16dp" />
 
         <!-- Заголовок: Редактирование данных -->
         <TextView
@@ -63,6 +63,8 @@
                     android:layout_height="wrap_content"
                     android:hint="Имя"
                     app:boxBackgroundMode="outline"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="50"
                     android:layout_marginBottom="12dp">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -70,7 +72,29 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textPersonName"
+                        android:maxLength="50"
                         android:text="Никита" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Поле Отчество (НОВОЕ) -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/patronymicLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Отчество"
+                    app:boxBackgroundMode="outline"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="50"
+                    android:layout_marginBottom="12dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/patronymicInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:maxLength="50"
+                        android:text="Алексеевич" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -81,6 +105,8 @@
                     android:layout_height="wrap_content"
                     android:hint="Фамилия"
                     app:boxBackgroundMode="outline"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="50"
                     android:layout_marginBottom="12dp">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -88,6 +114,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textPersonName"
+                        android:maxLength="50"
                         android:text="Шурманов" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -99,6 +126,8 @@
                     android:layout_height="wrap_content"
                     android:hint="Телефон"
                     app:boxBackgroundMode="outline"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="20"
                     android:layout_marginBottom="12dp">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -106,6 +135,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="phone"
+                        android:maxLength="20"
                         android:text="+79222428165" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -117,6 +147,8 @@
                     android:layout_height="wrap_content"
                     android:hint="Email"
                     app:boxBackgroundMode="outline"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="100"
                     android:layout_marginBottom="12dp">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -124,7 +156,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textEmailAddress"
-                        android:text="n.shurmanov@mail.ru" />
+                        android:maxLength="100"
+                        android:text="n.shurmanov@carbonsoft.ru" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -135,6 +168,8 @@
                     android:layout_height="wrap_content"
                     android:hint="Адрес"
                     app:boxBackgroundMode="outline"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="200"
                     android:layout_marginBottom="16dp">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -142,6 +177,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textPostalAddress"
+                        android:maxLength="200"
                         android:text="Екатеринбург, Ленина, 1" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -160,20 +196,6 @@
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
-
-        <!-- Копирайт -->
-        <TextView
-            android:id="@+id/copyrightText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Copyright 2025"
-            android:textSize="12sp"
-            android:textColor="@color/dark_gray"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="24dp"
-            app:layout_constraintTop_toBottomOf="@id/editFormCard"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

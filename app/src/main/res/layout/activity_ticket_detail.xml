@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:padding="16dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- Кнопка Назад (в виде MaterialButton) -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/backButton"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:text="← Назад"
+                android:textSize="16sp"
+                app:cornerRadius="24dp"
+                app:backgroundTint="@color/light_gray"
+                android:textColor="@color/dark_gray"
+                android:paddingHorizontal="16dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="8dp" />
+
+            <!-- Номер заявки -->
+            <TextView
+                android:id="@+id/ticketNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SUP-123456"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/backButton"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- Статус заявки -->
+            <TextView
+                android:id="@+id/ticketStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Открыта"
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:background="@drawable/status_background"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="6dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@id/ticketNumber"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- Карточка с темой -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/subjectCard"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="@color/light_gray"
+                app:contentPadding="16dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintTop_toBottomOf="@id/ticketStatus"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Тема"
+                        android:textSize="12sp"
+                        android:textColor="@color/dark_gray" />
+
+                    <TextView
+                        android:id="@+id/ticketSubject"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Проблема с интернетом"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="4dp" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Карточка с описанием -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/descriptionCard"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="@color/light_gray"
+                app:contentPadding="16dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/subjectCard"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Описание"
+                        android:textSize="12sp"
+                        android:textColor="@color/dark_gray" />
+
+                    <TextView
+                        android:id="@+id/ticketDescription"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Не работает интернет уже второй день. Проверил роутер — всё нормально."
+                        android:textSize="14sp"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="8dp" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Информация о дате создания (опционально) -->
+            <TextView
+                android:id="@+id/createdDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Создано: 15 марта 2025"
+                android:textSize="12sp"
+                android:textColor="@color/dark_gray"
+                android:layout_marginTop="24dp"
+                app:layout_constraintTop_toBottomOf="@id/descriptionCard"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

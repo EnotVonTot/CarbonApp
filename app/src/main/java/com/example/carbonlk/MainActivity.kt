@@ -50,6 +50,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun displayUserData() {
         val user = MockRepository.currentUser
+        // Теперь firstName — это только имя!
         binding.greetingTextView.text = "Здравствуйте, ${user.firstName}"
         binding.accountNumberValue.text = user.accountNumber
         binding.contractValue.text = user.contractNumber

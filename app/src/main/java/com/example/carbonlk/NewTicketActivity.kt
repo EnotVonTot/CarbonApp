@@ -18,8 +18,10 @@ class NewTicketActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Edge-to-edge режим
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
+        // Обработка выреза камеры
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             window.attributes.layoutInDisplayCutoutMode =
                 WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
@@ -30,6 +32,7 @@ class NewTicketActivity : AppCompatActivity() {
 
         applyWindowInsets()
         setupClickListeners()
+        loadUserData()
     }
 
     private fun applyWindowInsets() {
@@ -41,13 +44,6 @@ class NewTicketActivity : AppCompatActivity() {
                 systemInsets.left,
                 systemInsets.top,
                 systemInsets.right,
-                0
-            )
-
-            binding.bottomNavigation.setPadding(
-                0,
-                0,
-                0,
                 systemInsets.bottom
             )
 
@@ -55,45 +51,49 @@ class NewTicketActivity : AppCompatActivity() {
         }
     }
 
+    private fun loadUserData() {
+        val user = MockRepository.currentUser
+        binding.greetingTextView.text = "Здравствуйте, ${user.firstName}"
+    }
+
     private fun setupClickListeners() {
-        // Навигация
-        binding.navHome.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
-        }
-
-        binding.navServices.setOnClickListener {
-            startActivity(Intent(this, ServicesActivity::class.java))
-            finish()
-        }
-
-        binding.navPayment.setOnClickListener {
-            startActivity(Intent(this, PaysystemsActivity::class.java))
-            finish()
-        }
-
-        binding.navSupport.setOnClickListener {
-            startActivity(Intent(this, SupportActivity::class.java))
-            finish()
-        }
-
         // Сохранение заявки
         binding.saveTicketButton.setOnClickListener {
-            val subject = binding.ticketSubject.text.toString()
-            val description = binding.ticketDescription.text.toString()
+            val subject = binding.ticketSubject.text.toString().trim()
+            val description = binding.ticketDescription.text.toString().trim()
 
-            if (subject.isNotEmpty() && description.isNotEmpty()) {
-                val newTicket = MockRepository.addTicket(subject, description)
-                Toast.makeText(this, "Заявка ${newTicket.number} создана", Toast.LENGTH_SHORT).show()
-                finish()
+            if (subject.isEmpty()) {
+                binding.ticketSubjectLayout.error = "Введите тему заявки"
+                return@setOnClickListener
             } else {
-                Toast.makeText(this, "Заполните тему и описание", Toast.LENGTH_SHORT).show()
+                binding.ticketSubjectLayout.error = null
             }
+
+            if (description.isEmpty()) {
+                binding.ticketDescriptionLayout.error = "Введите описание заявки"
+                return@setOnClickListener
+            } else {
+                binding.ticketDescriptionLayout.error = null
+            }
+
+            // TODO: Здесь будет вызов API для создания заявки
+            // Пока используем MockRepository
+            val newTicket = MockRepository.addTicket(subject, description)
+            Toast.makeText(this, "Заявка ${newTicket.number} создана", Toast.LENGTH_SHORT).show()
+            finish()
         }
 
-        // Переход на личную страницу
+        // Кнопка Назад (возврат на экран поддержки)
+        binding.backButton.setOnClickListener {
+            finish()
+            overridePendingTransition(0, 0)
+        }
+
+        // Переход на личную страницу (по клику на приветствие)
         binding.greetingTextView.setOnClickListener {
-            startActivity(Intent(this, AccountActivity::class.java))
+            val intent = Intent(this, AccountActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(0, 0)
         }
     }
 }
