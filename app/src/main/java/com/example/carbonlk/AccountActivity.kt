@@ -85,6 +85,12 @@ class AccountActivity : AppCompatActivity() {
             overridePendingTransition(0, 0)
             finish()
         }
+        // Кнопка вызова настроек
+        binding.settingsCard.setOnClickListener {
+            startActivity(Intent(this, SettingsActivity::class.java))
+            overridePendingTransition(0, 0)
+        }
+
     }
 
     private fun setupSwitches() {
@@ -105,7 +111,9 @@ class AccountActivity : AppCompatActivity() {
             val status = if (isChecked) "включены" else "выключены"
             Toast.makeText(this, "Email-уведомления $status", Toast.LENGTH_SHORT).show()
         }
+
     }
+
 
     private fun setupBlockingDatePicker() {
         val dateFormat = SimpleDateFormat("dd MMM yyyy", Locale("ru"))

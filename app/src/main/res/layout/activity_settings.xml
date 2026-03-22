@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@color/white"
+    android:padding="16dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Заголовок -->
+        <TextView
+            android:id="@+id/settingsTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Настройки"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="16dp" />
+
+        <!-- Карточка с настройками сервера -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/serverCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="@color/light_gray"
+            app:contentPadding="16dp"
+            app:layout_constraintTop_toBottomOf="@id/settingsTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="24dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Адрес личного кабинета"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_marginBottom="16dp" />
+
+                <!-- Поле URL сервера -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/serverUrlLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Адрес сервера"
+                    app:boxBackgroundMode="outline"
+                    android:layout_marginBottom="8dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/serverUrlInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textUri"
+                        android:text="https://88.86.192.152:8090" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Кнопка сохранения -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/saveServerButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:text="Сохранить"
+                    android:textSize="14sp"
+                    app:cornerRadius="8dp"
+                    app:backgroundTint="@color/purple_500"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="8dp" />
+
+                <!-- Статус подключения -->
+                <TextView
+                    android:id="@+id/connectionStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="12sp"
+                    android:layout_marginTop="12dp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Кнопка Назад -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginTop="24dp"
+            android:text="Назад"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:backgroundTint="@color/purple_500"
+            app:cornerRadius="12dp"
+            android:paddingHorizontal="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/serverCard" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

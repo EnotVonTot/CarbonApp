@@ -6,21 +6,34 @@ import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import com.example.carbonlk.databinding.ActivitySplashBinding
+import com.example.carbonlk.utils.SessionManager
 
 class SplashActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySplashBinding
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Используем View Binding
+        sessionManager = SessionManager(this)
+
+        // ВРЕМЕННО: очищаем старую сессию для тестирования
+        sessionManager.clearSession()
+
+
+
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Задержка 2 секунды и переход на LoginActivity
         Handler(Looper.getMainLooper()).postDelayed({
-            startActivity(Intent(this, LoginActivity::class.java))
+            if (sessionManager.isLoggedIn()) {
+                // Если уже авторизован, переходим на главный экран
+                startActivity(Intent(this, MainActivity::class.java))
+            } else {
+                // Иначе на экран входа
+                startActivity(Intent(this, LoginActivity::class.java))
+            }
             finish()
         }, 2000)
     }
