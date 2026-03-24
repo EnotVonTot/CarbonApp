@@ -76,11 +76,6 @@ class ServicesActivity : AppCompatActivity() {
             navigateTo(SupportActivity::class.java)
         }
 
-        binding.greetingTextView.setOnClickListener {
-            navigateTo(AccountActivity::class.java)
-        }
-
-
         // Кнопки подключения
         binding.parentalControlButton.setOnClickListener {
             Toast.makeText(this, "Подключение родительского контроля", Toast.LENGTH_SHORT).show()

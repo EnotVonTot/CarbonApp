@@ -60,19 +60,27 @@ class SessionManager(context: Context) {
      * Сохраняет полный JSON ответа от web_cabinet.get_user
      */
     fun saveUserData(userData: FullUserResponse) {
+        android.util.Log.d("SESSION_DEBUG", "saveUserData called")
         val json = gson.toJson(userData)
+        android.util.Log.d("SESSION_DEBUG", "JSON length: ${json.length}")
         prefs.edit().putString(KEY_USER_DATA_JSON, json).apply()
+        android.util.Log.d("SESSION_DEBUG", "User data saved to SharedPreferences")
     }
 
     /**
      * Возвращает сохранённые данные пользователя
      */
     fun getUserData(): FullUserResponse? {
+        android.util.Log.d("SESSION_DEBUG", "getUserData called")
         val json = prefs.getString(KEY_USER_DATA_JSON, null)
+        android.util.Log.d("SESSION_DEBUG", "JSON from prefs: ${json != null}")
         return if (json != null) {
             try {
-                gson.fromJson(json, FullUserResponse::class.java)
+                val result = gson.fromJson(json, FullUserResponse::class.java)
+                android.util.Log.d("SESSION_DEBUG", "Parsed successfully: ${result.user?.abonent?.name}")
+                result
             } catch (e: Exception) {
+                android.util.Log.e("SESSION_DEBUG", "Parse error: ${e.message}")
                 null
             }
         } else null

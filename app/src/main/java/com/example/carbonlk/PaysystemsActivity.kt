@@ -76,10 +76,6 @@ class PaysystemsActivity : AppCompatActivity() {
             navigateTo(SupportActivity::class.java)
         }
 
-        binding.greetingTextView.setOnClickListener {
-            navigateTo(AccountActivity::class.java)
-        }
-
         // Кнопки оплаты
         binding.unitellerPayButton.setOnClickListener {
             val amount = binding.unitellerAmount.text.toString()

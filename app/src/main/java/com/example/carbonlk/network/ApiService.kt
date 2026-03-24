@@ -76,4 +76,14 @@ interface ApiService {
         @Query("method1") method: String = "web_cabinet.get_create_date",
         @Query("arg1") args: String
     ): Response<CreateDateResponse>
+
+    // Добровольная блокировка
+    @GET("api/")
+    suspend fun blockUser(
+        @Query("format") format: String = "json",
+        @Query("context") context: String = "web",
+        @Query("model") model: String = "users",
+        @Query("method1") method: String = "web_cabinet.block_user",
+        @Query("arg1") args: String
+    ): Response<BlockUserResponse>
 }

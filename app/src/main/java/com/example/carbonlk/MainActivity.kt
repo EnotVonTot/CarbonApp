@@ -1,10 +1,12 @@
 package com.example.carbonlk
 
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -13,6 +15,9 @@ import com.example.carbonlk.databinding.ActivityMainBinding
 import com.example.carbonlk.network.RetrofitClient
 import com.example.carbonlk.utils.SessionManager
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
@@ -42,13 +47,29 @@ class MainActivity : AppCompatActivity() {
 
         applyWindowInsets()
         setupClickListeners()
+        setupBlockingDatePicker()
 
-        // Проверяем, есть ли данные пользователя
         val userData = sessionManager.getUserData()
         if (userData == null) {
             loadUserDataFromApi()
         } else {
             displayUserData(userData)
+        }
+    }
+
+    private fun applyWindowInsets() {
+        binding.root.setOnApplyWindowInsetsListener { view, insets ->
+            val systemInsets = WindowInsetsCompat.toWindowInsetsCompat(insets)
+                .getInsets(WindowInsetsCompat.Type.systemBars())
+
+            view.setPadding(
+                systemInsets.left,
+                systemInsets.top,
+                systemInsets.right,
+                0
+            )
+            binding.bottomNavigation.setPadding(0, 0, 0, systemInsets.bottom)
+            insets
         }
     }
 
@@ -85,7 +106,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun displayUserData(userData: com.example.carbonlk.model.FullUserResponse) {
-        // ФИО
+        // Приветствие
         val fullName = userData.user?.abonent?.name
             ?: userData.user?.abonentShort
             ?: "Пользователь"
@@ -119,6 +140,33 @@ class MainActivity : AppCompatActivity() {
         val fullDate = userData.user?.abonent?.createDateSystem ?: ""
         val activationDate = fullDate.split(" ").firstOrNull() ?: "---"
         binding.activationDateValue.text = activationDate
+
+        // ===== ЛИЧНЫЕ ДАННЫЕ =====
+        // ФИО
+        val nameParts = fullName.split(" ")
+        val lastName = nameParts.getOrNull(0) ?: ""
+        val nameFirst = nameParts.getOrNull(1) ?: ""
+        val patronymic = nameParts.getOrNull(2) ?: ""
+        binding.userName.text = "$lastName $nameFirst $patronymic".trim()
+
+        // Телефон
+        val phone = userData.user?.abonent?.sms ?: ""
+        binding.userPhone.text = if (phone.isNotEmpty()) phone else "Не указан"
+
+        // Email
+        val email = userData.user?.abonent?.email ?: ""
+        binding.userEmail.text = if (email.isNotEmpty()) email else "Не указан"
+
+        // Адрес
+        val homeAddress = userData.user?.abonent?.home ?: ""
+        val apartmentNumber = userData.user?.abonent?.aHomeNumber ?: ""
+        val address = when {
+            homeAddress.isNotEmpty() && apartmentNumber.isNotEmpty() -> "$homeAddress, кв. $apartmentNumber"
+            homeAddress.isNotEmpty() -> homeAddress
+            apartmentNumber.isNotEmpty() -> "кв. $apartmentNumber"
+            else -> "Не указан"
+        }
+        binding.userAddress.text = address
     }
 
     private fun showPlaceholders() {
@@ -129,23 +177,117 @@ class MainActivity : AppCompatActivity() {
         binding.statusValue.text = "Активен"
         binding.tariffValue.text = "---"
         binding.activationDateValue.text = "---"
+
+        binding.userName.text = "---"
+        binding.userPhone.text = "---"
+        binding.userEmail.text = "---"
+        binding.userAddress.text = "---"
     }
 
-    private fun applyWindowInsets() {
-        binding.root.setOnApplyWindowInsetsListener { view, insets ->
-            val systemInsets = WindowInsetsCompat.toWindowInsetsCompat(insets)
-                .getInsets(WindowInsetsCompat.Type.systemBars())
+    // ==================== Блокировка ====================
 
-            view.setPadding(
-                systemInsets.left,
-                systemInsets.top,
-                systemInsets.right,
-                0
+    private fun setupBlockingDatePicker() {
+        val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale("ru"))
+        val calendar = Calendar.getInstance()
+
+        binding.blockingCard.setOnClickListener {
+            val datePickerDialog = DatePickerDialog(
+                this,
+                { _, year, month, dayOfMonth ->
+                    val selectedDate = Calendar.getInstance().apply {
+                        set(year, month, dayOfMonth)
+                    }
+
+                    if (selectedDate.timeInMillis > System.currentTimeMillis()) {
+                        showBlockingDurationDialog(selectedDate, dateFormat)
+                    } else {
+                        Toast.makeText(this, "Выберите дату в будущем", Toast.LENGTH_SHORT).show()
+                    }
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
             )
-            binding.bottomNavigation.setPadding(0, 0, 0, systemInsets.bottom)
-            insets
+
+            datePickerDialog.datePicker.minDate = System.currentTimeMillis() + (24 * 60 * 60 * 1000)
+            datePickerDialog.show()
         }
     }
+
+    private fun showBlockingDurationDialog(startDate: Calendar, dateFormat: SimpleDateFormat) {
+        val options = arrayOf("1 день", "3 дня", "7 дней", "14 дней", "30 дней")
+
+        AlertDialog.Builder(this)
+            .setTitle("Выберите длительность блокировки")
+            .setItems(options) { _, which ->
+                val days = when (which) {
+                    0 -> 1
+                    1 -> 3
+                    2 -> 7
+                    3 -> 14
+                    4 -> 30
+                    else -> 7
+                }
+
+                val endDate = Calendar.getInstance().apply {
+                    time = startDate.time
+                    add(Calendar.DAY_OF_YEAR, days)
+                }
+
+                val formattedStart = dateFormat.format(startDate.time)
+                val formattedEnd = dateFormat.format(endDate.time)
+
+                AlertDialog.Builder(this@MainActivity)
+                    .setTitle("Подтверждение блокировки")
+                    .setMessage("Вы действительно хотите заблокировать услуги с $formattedStart по $formattedEnd?")
+                    .setPositiveButton("Да") { _, _ ->
+                        performBlocking(startDate, endDate)
+                    }
+                    .setNegativeButton("Нет", null)
+                    .show()
+            }
+            .show()
+    }
+
+    private fun performBlocking(startDate: Calendar, endDate: Calendar) {
+        val sessionId = sessionManager.getSessionId()
+        if (sessionId.isNullOrEmpty()) {
+            Toast.makeText(this, "Ошибка: сессия не найдена", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale("ru"))
+        val startDateStr = dateFormat.format(startDate.time)
+        val endDateStr = dateFormat.format(endDate.time)
+
+        val argJson = "{\"start_date\":\"$startDateStr\",\"end_date\":\"$endDateStr\",\"suid\":\"$sessionId\"}"
+
+        lifecycleScope.launch {
+            try {
+                val response = apiService.blockUser(
+                    format = "json",
+                    context = "web",
+                    model = "users",
+                    method = "web_cabinet.block_user",
+                    args = argJson
+                )
+
+                if (response.isSuccessful) {
+                    val blockResponse = response.body()
+                    val message = blockResponse?.message ?: "Блокировка установлена"
+
+                    Toast.makeText(this@MainActivity, message, Toast.LENGTH_LONG).show()
+                    binding.blockingDate.text = "$startDateStr – $endDateStr"
+                } else {
+                    Toast.makeText(this@MainActivity, "Ошибка: ${response.code()}", Toast.LENGTH_LONG).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(this@MainActivity, "Ошибка сети: ${e.message}", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    // ==================== Навигация ====================
 
     private fun setupClickListeners() {
         binding.navHome.setOnClickListener {
@@ -170,19 +312,18 @@ class MainActivity : AppCompatActivity() {
             overridePendingTransition(0, 0)
         }
 
-        binding.greetingTextView.setOnClickListener {
-            val intent = Intent(this, AccountActivity::class.java)
+        // Иконка редактирования телефона
+        binding.editButton.setOnClickListener {
+            val intent = Intent(this, AccountEditActivity::class.java)
             startActivity(intent)
             overridePendingTransition(0, 0)
         }
 
-        binding.buttonTake.setOnClickListener {
-            val selectedDays = when (binding.paymentRadioGroup.checkedRadioButtonId) {
-                R.id.radio3days -> 3
-                R.id.radio7days -> 7
-                else -> 3
-            }
-            Toast.makeText(this, "Обещанный платёж на $selectedDays дня(ей)", Toast.LENGTH_SHORT).show()
+        // Настройки приложения
+        binding.settingsCard.setOnClickListener {
+            val intent = Intent(this, SettingsActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(0, 0)
         }
     }
 

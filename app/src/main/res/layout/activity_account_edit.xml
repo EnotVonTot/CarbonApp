@@ -16,7 +16,7 @@
             android:id="@+id/accountTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Личная страница"
+            android:text="Номер телефона"
             android:textSize="24sp"
             android:textStyle="bold"
             android:textColor="@color/black"
@@ -56,69 +56,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <!-- Поле Имя -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/firstNameLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Имя"
-                    app:boxBackgroundMode="outline"
-                    app:counterEnabled="true"
-                    app:counterMaxLength="50"
-                    android:layout_marginBottom="12dp">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/firstNameInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textPersonName"
-                        android:maxLength="50"
-                        android:text="Никита" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- Поле Отчество (НОВОЕ) -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/patronymicLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Отчество"
-                    app:boxBackgroundMode="outline"
-                    app:counterEnabled="true"
-                    app:counterMaxLength="50"
-                    android:layout_marginBottom="12dp">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/patronymicInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textPersonName"
-                        android:maxLength="50"
-                        android:text="Алексеевич" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- Поле Фамилия -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/lastNameLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Фамилия"
-                    app:boxBackgroundMode="outline"
-                    app:counterEnabled="true"
-                    app:counterMaxLength="50"
-                    android:layout_marginBottom="12dp">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/lastNameInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textPersonName"
-                        android:maxLength="50"
-                        android:text="Шурманов" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
                 <!-- Поле Телефон -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/phoneLayout"
@@ -128,7 +65,7 @@
                     app:boxBackgroundMode="outline"
                     app:counterEnabled="true"
                     app:counterMaxLength="20"
-                    android:layout_marginBottom="12dp">
+                    android:layout_marginBottom="16dp">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/phoneInput"
@@ -137,48 +74,6 @@
                         android:inputType="phone"
                         android:maxLength="20"
                         android:text="+79222428165" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- Поле Email -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/emailLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Email"
-                    app:boxBackgroundMode="outline"
-                    app:counterEnabled="true"
-                    app:counterMaxLength="100"
-                    android:layout_marginBottom="12dp">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/emailInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textEmailAddress"
-                        android:maxLength="100"
-                        android:text="n.shurmanov@carbonsoft.ru" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- Поле Адрес -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/addressLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Адрес"
-                    app:boxBackgroundMode="outline"
-                    app:counterEnabled="true"
-                    app:counterMaxLength="200"
-                    android:layout_marginBottom="16dp">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/addressInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textPostalAddress"
-                        android:maxLength="200"
-                        android:text="Екатеринбург, Ленина, 1" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 

@@ -121,10 +121,6 @@ class SupportActivity : AppCompatActivity() {
             navigateTo(PaysystemsActivity::class.java)
         }
 
-        binding.greetingTextView.setOnClickListener {
-            navigateTo(AccountActivity::class.java)
-        }
-
         binding.navSupport.setOnClickListener {
             Toast.makeText(this, "Поддержка", Toast.LENGTH_SHORT).show()
         }
