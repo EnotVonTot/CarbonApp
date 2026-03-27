@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.carbonlk.databinding.ActivityAccountEditBinding
-import com.example.carbonlk.data.MockRepository
 import com.example.carbonlk.utils.SessionManager
 import java.util.regex.Pattern
 
@@ -27,6 +26,7 @@ class AccountEditActivity : AppCompatActivity() {
 
     private fun loadUserData() {
         val userData = sessionManager.getUserData()
+        // Получаем телефон из abonent.sms
         val phone = userData?.user?.abonent?.sms ?: ""
         binding.phoneInput.setText(phone)
     }

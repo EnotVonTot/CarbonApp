@@ -8,7 +8,7 @@ import retrofit2.http.Query
 interface ApiService {
 
     // Авторизация
-    @GET("api/")
+    @GET(".")
     suspend fun login(
         @Query("format") format: String = "json",
         @Query("context") context: String = "web",
@@ -18,7 +18,7 @@ interface ApiService {
     ): Response<LoginResponse>
 
     // Получение полных данных пользователя
-    @GET("api/")
+    @GET(".")
     suspend fun getUser(
         @Query("format") format: String = "json",
         @Query("context") context: String = "web",
@@ -27,58 +27,8 @@ interface ApiService {
         @Query("arg1") args: String
     ): Response<FullUserResponse>
 
-    // ФИО
-    @GET("api/")
-    suspend fun getFio(
-        @Query("format") format: String = "json",
-        @Query("context") context: String = "web",
-        @Query("model") model: String = "users",
-        @Query("method1") method: String = "web_cabinet.get_fio",
-        @Query("arg1") args: String
-    ): Response<FioResponse>
-
-    // Лицевой счёт
-    @GET("api/")
-    suspend fun getAccountId(
-        @Query("format") format: String = "json",
-        @Query("context") context: String = "web",
-        @Query("model") model: String = "users",
-        @Query("method1") method: String = "web_cabinet.get_account_id",
-        @Query("arg1") args: String
-    ): Response<AccountIdResponse>
-
-    // Баланс
-    @GET("api/")
-    suspend fun getBalance(
-        @Query("format") format: String = "json",
-        @Query("context") context: String = "web",
-        @Query("model") model: String = "users",
-        @Query("method1") method: String = "web_cabinet.get_balance",
-        @Query("arg1") args: String
-    ): Response<BalanceResponse>
-
-    // Тариф
-    @GET("api/")
-    suspend fun getTariff(
-        @Query("format") format: String = "json",
-        @Query("context") context: String = "web",
-        @Query("model") model: String = "users",
-        @Query("method1") method: String = "web_cabinet.get_user_tarif",
-        @Query("arg1") args: String
-    ): Response<TariffResponse>
-
-    // Дата активации
-    @GET("api/")
-    suspend fun getCreateDate(
-        @Query("format") format: String = "json",
-        @Query("context") context: String = "web",
-        @Query("model") model: String = "users",
-        @Query("method1") method: String = "web_cabinet.get_create_date",
-        @Query("arg1") args: String
-    ): Response<CreateDateResponse>
-
     // Добровольная блокировка
-    @GET("api/")
+    @GET(".")
     suspend fun blockUser(
         @Query("format") format: String = "json",
         @Query("context") context: String = "web",
@@ -86,4 +36,34 @@ interface ApiService {
         @Query("method1") method: String = "web_cabinet.block_user",
         @Query("arg1") args: String
     ): Response<BlockUserResponse>
+
+    // Получение списка услуг
+    @GET(".")
+    suspend fun getServicesList(
+        @Query("format") format: String = "json",
+        @Query("context") context: String = "web",
+        @Query("model") model: String = "users",
+        @Query("method1") method: String = "web_cabinet.get_usluga_list",
+        @Query("arg1") args: String
+    ): Response<List<List<Map<String, Any>>>>
+
+    // Подключение услуги
+    @GET(".")
+    suspend fun setUserUsluga(
+        @Query("format") format: String = "json",
+        @Query("context") context: String = "web",
+        @Query("model") model: String = "users",
+        @Query("method1") method: String = "web_cabinet.set_user_usluga",
+        @Query("arg1") args: String
+    ): Response<BlockUserResponse>  // можно использовать ту же модель BlockUserResponse
+
+    // Отключение услуги
+    @GET(".")
+    suspend fun removeUserUsluga(
+        @Query("format") format: String = "json",
+        @Query("context") context: String = "web",
+        @Query("model") model: String = "users",
+        @Query("method1") method: String = "web_cabinet.remove_user_usluga",
+        @Query("arg1") args: String
+    ): Response<ServiceActionResponse>
 }
