@@ -4,7 +4,10 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +15,7 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.carbonlk.databinding.ActivityMainBinding
+import com.example.carbonlk.model.ExpenseItem
 import com.example.carbonlk.network.RetrofitClient
 import com.example.carbonlk.utils.SessionManager
 import kotlinx.coroutines.launch
@@ -55,6 +59,9 @@ class MainActivity : AppCompatActivity() {
         } else {
             displayUserData(userData)
         }
+
+        // Загружаем расходы
+        loadExpenses()
     }
 
     private fun applyWindowInsets() {
@@ -106,7 +113,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun displayUserData(userData: com.example.carbonlk.model.FullUserResponse) {
-        // Приветствие
+        // ФИО
         val fullName = userData.user?.abonent?.name
             ?: userData.user?.abonentShort
             ?: "Пользователь"
@@ -141,25 +148,22 @@ class MainActivity : AppCompatActivity() {
         val activationDate = fullDate.split(" ").firstOrNull() ?: "---"
         binding.activationDateValue.text = activationDate
 
-        // ===== ЛИЧНЫЕ ДАННЫЕ =====
-        // ФИО
+        // Личные данные
+        val abonent = userData.user?.abonent
         val nameParts = fullName.split(" ")
         val lastName = nameParts.getOrNull(0) ?: ""
         val nameFirst = nameParts.getOrNull(1) ?: ""
         val patronymic = nameParts.getOrNull(2) ?: ""
         binding.userName.text = "$lastName $nameFirst $patronymic".trim()
 
-        // Телефон
-        val phone = userData.user?.abonent?.sms ?: ""
+        val phone = abonent?.sms ?: ""
         binding.userPhone.text = if (phone.isNotEmpty()) phone else "Не указан"
 
-        // Email
-        val email = userData.user?.abonent?.email ?: ""
+        val email = abonent?.email ?: ""
         binding.userEmail.text = if (email.isNotEmpty()) email else "Не указан"
 
-        // Адрес
-        val homeAddress = userData.user?.abonent?.home ?: ""
-        val apartmentNumber = userData.user?.abonent?.aHomeNumber ?: ""
+        val homeAddress = abonent?.home ?: ""
+        val apartmentNumber = abonent?.aHomeNumber ?: ""
         val address = when {
             homeAddress.isNotEmpty() && apartmentNumber.isNotEmpty() -> "$homeAddress, кв. $apartmentNumber"
             homeAddress.isNotEmpty() -> homeAddress
@@ -167,6 +171,127 @@ class MainActivity : AppCompatActivity() {
             else -> "Не указан"
         }
         binding.userAddress.text = address
+    }
+
+    private fun loadExpenses() {
+        val sessionId = sessionManager.getSessionId()
+        if (sessionId.isNullOrEmpty()) return
+
+        val argJson = "{\"filter\":\"\",\"get_user_uslugas_all\":true,\"get_user_uslugas\":true,\"get_setted\":false,\"suid\":\"$sessionId\"}"
+
+        lifecycleScope.launch {
+            try {
+                val response = apiService.getServicesList(
+                    format = "json",
+                    context = "web",
+                    model = "users",
+                    method = "web_cabinet.get_usluga_list",
+                    args = argJson
+                )
+
+                if (response.isSuccessful && response.body() != null) {
+                    val data = response.body()!!
+                    val expenses = parseExpenses(data)
+                    displayExpenses(expenses)
+                }
+            } catch (e: Exception) {
+                // Показываем заглушки
+                val expensesContainer = binding.expensesContainer
+                while (expensesContainer.childCount > 1) {
+                    expensesContainer.removeViewAt(expensesContainer.childCount - 1)
+                }
+                val emptyText = TextView(this@MainActivity).apply {
+                    text = "Нет данных о расходах"
+                    textSize = 14f
+                    setTextColor(getColor(R.color.dark_gray))
+                    layoutParams = LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                    )
+                    setPadding(0, 8, 0, 0)
+                }
+                expensesContainer.addView(emptyText)
+            }
+        }
+    }
+
+    private fun parseExpenses(data: List<List<Map<String, Any>>>): List<ExpenseItem> {
+        val expenses = mutableListOf<ExpenseItem>()
+
+        // data[1] - услуги, подключенные к абоненту
+        if (data.size > 1) {
+            data[1].forEach { serviceMap ->
+                val serviceName = serviceMap["__usluga"]?.toString() ?: ""
+                val debit = serviceMap["debit"]?.toString()?.toDoubleOrNull() ?: 0.0
+
+                if (serviceName.isNotEmpty() && debit > 0) {
+                    // Очищаем название от лишней информации (оставляем только название услуги)
+                    val cleanName = serviceName.split(":").first().trim()
+                    expenses.add(ExpenseItem(cleanName, debit))
+                }
+            }
+        }
+
+        return expenses
+    }
+
+    private fun displayExpenses(expenses: List<ExpenseItem>) {
+        val expensesContainer = binding.expensesContainer
+        // Удаляем все дочерние элементы, кроме заголовка (первого)
+        while (expensesContainer.childCount > 1) {
+            expensesContainer.removeViewAt(expensesContainer.childCount - 1)
+        }
+
+        if (expenses.isEmpty()) {
+            val emptyText = TextView(this).apply {
+                text = "Нет расходов в текущем месяце"
+                textSize = 14f
+                setTextColor(getColor(R.color.dark_gray))
+                layoutParams = LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
+                setPadding(0, 8, 0, 0)
+            }
+            expensesContainer.addView(emptyText)
+            return
+        }
+
+        expenses.forEach { expense ->
+            val itemLayout = LinearLayout(this).apply {
+                orientation = LinearLayout.HORIZONTAL
+                layoutParams = LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
+                gravity = android.view.Gravity.CENTER_VERTICAL
+                setPadding(0, 0, 0, 8)
+            }
+
+            // Название услуги
+            val nameTextView = TextView(this).apply {
+                layoutParams = LinearLayout.LayoutParams(
+                    0,
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    1f
+                )
+                text = expense.name
+                textSize = 14f
+                setTextColor(getColor(R.color.black))
+            }
+
+            // Сумма
+            val amountTextView = TextView(this).apply {
+                text = "${String.format("%.2f", expense.amount)} р."
+                textSize = 14f
+                setTextColor(getColor(R.color.black))
+                setTypeface(null, android.graphics.Typeface.BOLD)
+            }
+
+            itemLayout.addView(nameTextView)
+            itemLayout.addView(amountTextView)
+            expensesContainer.addView(itemLayout)
+        }
     }
 
     private fun showPlaceholders() {
@@ -182,6 +307,23 @@ class MainActivity : AppCompatActivity() {
         binding.userPhone.text = "---"
         binding.userEmail.text = "---"
         binding.userAddress.text = "---"
+
+        // Очищаем расходы
+        val expensesContainer = binding.expensesContainer
+        while (expensesContainer.childCount > 1) {
+            expensesContainer.removeViewAt(expensesContainer.childCount - 1)
+        }
+        val emptyText = TextView(this).apply {
+            text = "Нет данных о расходах"
+            textSize = 14f
+            setTextColor(getColor(R.color.dark_gray))
+            layoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            setPadding(0, 8, 0, 0)
+        }
+        expensesContainer.addView(emptyText)
     }
 
     // ==================== Блокировка ====================
@@ -312,14 +454,12 @@ class MainActivity : AppCompatActivity() {
             overridePendingTransition(0, 0)
         }
 
-        // Иконка редактирования телефона
         binding.editButton.setOnClickListener {
             val intent = Intent(this, AccountEditActivity::class.java)
             startActivity(intent)
             overridePendingTransition(0, 0)
         }
 
-        // Настройки приложения
         binding.settingsCard.setOnClickListener {
             val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)

@@ -96,4 +96,5 @@ interface ApiService {
         @Query("method1") method: String = "web_cabinet.create_ticket",
         @Query("arg1") args: String
     ): Response<CreateTicketResponse>
+
 }

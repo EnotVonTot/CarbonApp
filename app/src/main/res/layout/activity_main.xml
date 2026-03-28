@@ -453,7 +453,7 @@
 
             </androidx.cardview.widget.CardView>
 
-            <!-- Блок: Расходы за месяц -->
+            <!-- Блок: Расходы в текущем месяце -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/expensesCard"
                 android:layout_width="0dp"
@@ -468,73 +468,21 @@
                 android:layout_marginTop="16dp">
 
                 <LinearLayout
+                    android:id="@+id/expensesContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
+                    <!-- Заголовок -->
                     <TextView
                         android:id="@+id/expensesTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Расходы за месяц:"
+                        android:text="Расходы в текущем месяце"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:textColor="@color/black"
                         android:layout_marginBottom="12dp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:layout_marginBottom="8dp">
-
-                        <TextView
-                            android:id="@+id/trafficLabel"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Трафик 100 Мбит"
-                            android:textSize="14sp"
-                            android:textColor="@color/black" />
-
-                        <TextView
-                            android:id="@+id/trafficExpense"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0 р."
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/black" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:layout_marginBottom="0dp">
-
-                        <TextView
-                            android:id="@+id/subscriptionLabel"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Абонентская плата"
-                            android:textSize="14sp"
-                            android:textColor="@color/black" />
-
-                        <TextView
-                            android:id="@+id/subscriptionExpense"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="890 р."
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/black" />
-
-                    </LinearLayout>
 
                 </LinearLayout>
 
