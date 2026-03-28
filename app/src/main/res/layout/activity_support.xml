@@ -6,22 +6,22 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <!-- ScrollView с контентом -->
+    <!-- ScrollView с контентом (заявки) -->
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:fillViewport="true"
-        android:paddingBottom="16dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
+        app:layout_constraintBottom_toTopOf="@id/newTicketButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:padding="16dp"
+            android:paddingBottom="16dp">
 
             <!-- Заголовок: Здравствуйте, Никита -->
             <TextView
@@ -49,168 +49,40 @@
                 app:layout_constraintTop_toBottomOf="@id/greetingTextView"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <!-- Карточка заявки SUP-1668960 (Закрыта) -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/ticket1Card"
-                android:layout_width="0dp"
+            <!-- Контейнер для списка заявок -->
+            <LinearLayout
+                android:id="@+id/ticketsContainer"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp"
-                app:cardBackgroundColor="@color/light_gray"
-                app:contentPadding="16dp"
+                android:orientation="vertical"
+                android:layout_marginTop="16dp"
                 app:layout_constraintTop_toBottomOf="@id/myTicketsTitle"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="16dp">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/ticket1Number"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="SUP-1668960"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
-
-                    <TextView
-                        android:id="@+id/ticket1Status"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Закрыта"
-                        android:textSize="14sp"
-                        android:textColor="@color/dark_gray"
-                        android:background="@drawable/status_background_gray"
-                        android:paddingHorizontal="12dp"
-                        android:paddingVertical="4dp"
-                        app:layout_constraintTop_toTopOf="@id/ticket1Number"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toBottomOf="@id/ticket1Number" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <!-- Карточка заявки SUP-1667543 (Закрыта) -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/ticket2Card"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp"
-                app:cardBackgroundColor="@color/light_gray"
-                app:contentPadding="16dp"
-                app:layout_constraintTop_toBottomOf="@id/ticket1Card"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="8dp">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/ticket2Number"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="SUP-1667543"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
-
-                    <TextView
-                        android:id="@+id/ticket2Status"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Закрыта"
-                        android:textSize="14sp"
-                        android:textColor="@color/dark_gray"
-                        android:background="@drawable/status_background_gray"
-                        android:paddingHorizontal="12dp"
-                        android:paddingVertical="4dp"
-                        app:layout_constraintTop_toTopOf="@id/ticket2Number"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toBottomOf="@id/ticket2Number" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <!-- Карточка заявки SUP-1650042 (Открыта) -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/ticket3Card"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp"
-                app:cardBackgroundColor="@color/light_gray"
-                app:contentPadding="16dp"
-                app:layout_constraintTop_toBottomOf="@id/ticket2Card"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="8dp">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/ticket3Number"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="SUP-1650042"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
-
-                    <TextView
-                        android:id="@+id/ticket3Status"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Открыта"
-                        android:textSize="14sp"
-                        android:textColor="@color/white"
-                        android:background="@drawable/status_background"
-                        android:paddingHorizontal="12dp"
-                        android:paddingVertical="4dp"
-                        app:layout_constraintTop_toTopOf="@id/ticket3Number"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toBottomOf="@id/ticket3Number" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <!-- Кнопка Новая заявка -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/newTicketButton"
-                android:layout_width="0dp"
-                android:layout_height="56dp"
-                android:text="Новая заявка"
-                android:textSize="16sp"
-                app:cornerRadius="12dp"
-                app:backgroundTint="@color/purple_500"
-                android:textColor="@color/white"
-                app:icon="@android:drawable/ic_menu_add"
-                app:iconGravity="textStart"
-                app:iconPadding="8dp"
-                app:layout_constraintTop_toBottomOf="@id/ticket3Card"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="24dp" />
+                app:layout_constraintEnd_toEndOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
+
+    <!-- Кнопка Новая заявка (закреплена над нижней навигацией) -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/newTicketButton"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="Новая заявка"
+        android:textSize="16sp"
+        app:cornerRadius="12dp"
+        app:backgroundTint="@color/purple_500"
+        android:textColor="@color/white"
+        app:icon="@android:drawable/ic_menu_add"
+        app:iconGravity="textStart"
+        app:iconPadding="8dp"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Нижняя навигация (всегда внизу) - Поддержка активна -->
     <LinearLayout
@@ -265,7 +137,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Поддержка"
+            android:text="Помощь"
             android:textColor="@color/purple_500"
             app:icon="@drawable/ic_support"
             app:iconGravity="textTop" />

@@ -10,7 +10,6 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.carbonlk.databinding.ActivityNewTicketBinding
-import com.example.carbonlk.data.MockRepository
 import com.example.carbonlk.network.RetrofitClient
 import com.example.carbonlk.utils.SessionManager
 import kotlinx.coroutines.launch
@@ -27,16 +26,13 @@ class NewTicketActivity : AppCompatActivity() {
         sessionManager = SessionManager(this)
         apiService = RetrofitClient.getInstance()
 
-        // Проверяем, авторизован ли пользователь
         if (!sessionManager.isLoggedIn()) {
             navigateToLogin()
             return
         }
 
-        // Edge-to-edge режим
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        // Обработка выреза камеры
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             window.attributes.layoutInDisplayCutoutMode =
                 WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
@@ -46,8 +42,8 @@ class NewTicketActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         applyWindowInsets()
-        setupClickListeners()
         loadUserData()
+        setupClickListeners()
     }
 
     private fun applyWindowInsets() {
@@ -75,7 +71,7 @@ class NewTicketActivity : AppCompatActivity() {
     }
 
     private fun setupClickListeners() {
-        // Кнопка Назад (возврат на экран поддержки)
+        // Кнопка Назад
         binding.backButton.setOnClickListener {
             finish()
             overridePendingTransition(0, 0)
@@ -105,11 +101,56 @@ class NewTicketActivity : AppCompatActivity() {
     }
 
     private fun createTicket(subject: String, description: String) {
-        // TODO: Здесь будет вызов API для создания заявки
-        // Пока используем MockRepository
-        val newTicket = MockRepository.addTicket(subject, description)
-        Toast.makeText(this, "Заявка ${newTicket.number} создана", Toast.LENGTH_SHORT).show()
-        finish()
+        val sessionId = sessionManager.getSessionId()
+        if (sessionId.isNullOrEmpty()) {
+            Toast.makeText(this, "Ошибка: сессия не найдена", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        binding.saveTicketButton.isEnabled = false
+        binding.saveTicketButton.text = "Отправка..."
+
+        // parent_id = null — создаём новую заявку, status = 1 — открыта
+        val argJson = "{\"suid\":\"$sessionId\",\"ticket_text\":\"$description\",\"subj\":\"$subject\",\"parent_id\":null,\"status\":1}"
+
+        lifecycleScope.launch {
+            try {
+                val response = apiService.createTicket(
+                    format = "json",
+                    context = "web",
+                    model = "users",
+                    method = "web_cabinet.create_ticket",
+                    args = argJson
+                )
+
+                if (response.isSuccessful && response.body() != null) {
+                    val result = response.body()
+                    Toast.makeText(
+                        this@NewTicketActivity,
+                        result?.message ?: "Заявка создана",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    finish() // возвращаемся на экран поддержки
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    Toast.makeText(
+                        this@NewTicketActivity,
+                        "Ошибка: ${errorBody ?: response.code()}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    binding.saveTicketButton.isEnabled = true
+                    binding.saveTicketButton.text = "Сохранить"
+                }
+            } catch (e: Exception) {
+                Toast.makeText(
+                    this@NewTicketActivity,
+                    "Ошибка сети: ${e.message}",
+                    Toast.LENGTH_LONG
+                ).show()
+                binding.saveTicketButton.isEnabled = true
+                binding.saveTicketButton.text = "Сохранить"
+            }
+        }
     }
 
     private fun navigateToLogin() {

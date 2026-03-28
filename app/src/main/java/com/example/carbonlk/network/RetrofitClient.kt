@@ -32,7 +32,7 @@ object RetrofitClient {
                 .build()
 
             val retrofit = Retrofit.Builder()
-                .baseUrl(baseUrl)
+                .baseUrl(baseUrl)  // baseUrl должен заканчиваться на /
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()

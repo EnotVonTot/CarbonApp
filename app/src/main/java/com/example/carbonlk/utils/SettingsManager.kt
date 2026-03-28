@@ -10,7 +10,7 @@ class SettingsManager(context: Context) {
 
     companion object {
         private const val KEY_API_BASE_URL = "api_base_url"
-        private const val DEFAULT_API_URL = "http://192.168.220.150:8082/system_api/"
+        private const val DEFAULT_API_URL = "http://88.86.192.152:8090/"
     }
 
     fun getApiBaseUrl(): String {
